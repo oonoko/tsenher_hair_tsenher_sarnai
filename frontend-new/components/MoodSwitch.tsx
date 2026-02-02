@@ -1,4 +1,9 @@
-function MoodSwitch({ nightMode, onToggle }) {
+interface MoodSwitchProps {
+  nightMode: boolean
+  onToggle: () => void
+}
+
+export default function MoodSwitch({ nightMode, onToggle }: MoodSwitchProps) {
   return (
     <button
       type="button"
@@ -16,5 +21,3 @@ function MoodSwitch({ nightMode, onToggle }) {
     </button>
   )
 }
-
-export default MoodSwitch

@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react'
 
-function FloatingHearts({ tier }) {
-  const containerRef = useRef(null)
+interface FloatingHeartsProps {
+  tier: string
+}
+
+export default function FloatingHearts({ tier }: FloatingHeartsProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -22,5 +26,3 @@ function FloatingHearts({ tier }) {
 
   return <div className="hearts-bg" ref={containerRef} aria-hidden="true"></div>
 }
-
-export default FloatingHearts

@@ -1,6 +1,13 @@
-function PaymentSection({ price, receiptFile, setReceiptFile, onConfirm }) {
-  const handleReceiptChange = (e) => {
-    setReceiptFile(e.target.files[0])
+interface PaymentSectionProps {
+  price: number
+  receiptFile: File | null
+  setReceiptFile: (file: File | null) => void
+  onConfirm: () => void
+}
+
+export default function PaymentSection({ price, receiptFile, setReceiptFile, onConfirm }: PaymentSectionProps) {
+  const handleReceiptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setReceiptFile(e.target.files?.[0] || null)
   }
 
   return (
@@ -19,7 +26,7 @@ function PaymentSection({ price, receiptFile, setReceiptFile, onConfirm }) {
 
         <div className="form-group">
           <label>Төлбөрийн баримт оруулах</label>
-          <div className="file-upload" onClick={() => document.getElementById('receiptInput').click()}>
+          <div className="file-upload" onClick={() => document.getElementById('receiptInput')?.click()}>
             <input
               type="file"
               id="receiptInput"
@@ -58,5 +65,3 @@ function PaymentSection({ price, receiptFile, setReceiptFile, onConfirm }) {
     </div>
   )
 }
-
-export default PaymentSection

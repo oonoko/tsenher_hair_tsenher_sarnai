@@ -1,4 +1,12 @@
-function GreetingContent({ tier, name, message, greetingData, searchParams }) {
+interface GreetingContentProps {
+  tier: string
+  name: string
+  message: string | null
+  greetingData: any
+  searchParams: URLSearchParams
+}
+
+export default function GreetingContent({ tier, name, message, greetingData }: GreetingContentProps) {
   const defaultMessage = 'Чамайг харах бүрт миний ертөнц илүү гэрэлтдэг. Энэ бяцхан вебийг тусгайлан чамдаа зориуланхийлгэлээ. Хайртай шүү ❤'
   const freeMessage = 'Чамайг харах бүрт миний ертөнц илүү гэрэлтдэг. Энэ бяцхан мэндчилгээг чамдаа зориуллаа. Хайртай шүү ❤'
   
@@ -35,7 +43,7 @@ function GreetingContent({ tier, name, message, greetingData, searchParams }) {
         <section className="greeting-photos">
           <h3>Бидний дурсамжууд</h3>
           <div className="photos-grid">
-            {photos.map((src, i) => (
+            {photos.map((src: string, i: number) => (
               <div key={i} className="photo-frame">
                 <img src={src} alt={`Дурсамж ${i + 1}`} />
               </div>
@@ -48,14 +56,14 @@ function GreetingContent({ tier, name, message, greetingData, searchParams }) {
         <section className="greeting-video" style={{ display: 'block' }}>
           <h3>Видео мессеж</h3>
           <div className="video-wrapper">
-            <video controls playsinline preload="metadata">
+            <video controls playsInline preload="metadata">
               <source src={video} type="video/mp4" />
             </video>
           </div>
         </section>
       )}
 
-      {(tier === 'premium') && voice && (
+      {tier === 'premium' && voice && (
         <section className="greeting-voice" style={{ display: 'block' }}>
           <h3>Дуу мессеж</h3>
           <div className="voice-wrapper">
@@ -82,7 +90,7 @@ function GreetingContent({ tier, name, message, greetingData, searchParams }) {
         </section>
       )}
 
-      {(tier === 'premium') && timeCapsule === '6months' && (
+      {tier === 'premium' && timeCapsule === '6months' && (
         <section className="greeting-timecapsule" style={{ display: 'block' }}>
           <div className="timecapsule-box">
             <p>Энэ мессеж <strong>6 сарын дараа</strong> нээгдэнэ.</p>
@@ -120,5 +128,3 @@ function GreetingContent({ tier, name, message, greetingData, searchParams }) {
     </main>
   )
 }
-
-export default GreetingContent

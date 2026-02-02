@@ -1,6 +1,11 @@
 import { useState } from 'react'
 
-function EmotionalReveal({ name, onOpen }) {
+interface EmotionalRevealProps {
+  name: string
+  onOpen: () => void
+}
+
+export default function EmotionalReveal({ name, onOpen }: EmotionalRevealProps) {
   const [burst, setBurst] = useState(false)
 
   const handleOpen = () => {
@@ -41,5 +46,3 @@ function EmotionalReveal({ name, onOpen }) {
     </div>
   )
 }
-
-export default EmotionalReveal

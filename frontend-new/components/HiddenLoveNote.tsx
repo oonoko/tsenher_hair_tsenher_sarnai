@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react'
 
-function HiddenLoveNote({ onShow }) {
-  const buttonRef = useRef(null)
+interface HiddenLoveNoteProps {
+  onShow: () => void
+}
+
+export default function HiddenLoveNote({ onShow }: HiddenLoveNoteProps) {
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (buttonRef.current) {
@@ -23,5 +27,3 @@ function HiddenLoveNote({ onShow }) {
     </button>
   )
 }
-
-export default HiddenLoveNote

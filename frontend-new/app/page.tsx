@@ -1,18 +1,20 @@
+'use client'
+
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import axios from 'axios'
-import TierSelection from '../components/TierSelection'
-import FormFields from '../components/FormFields'
-import PaymentSection from '../components/PaymentSection'
-import SuccessScreen from '../components/SuccessScreen'
-import LoadingOverlay from '../components/LoadingOverlay'
+import TierSelection from '@/components/TierSelection'
+import FormFields from '@/components/FormFields'
+import PaymentSection from '@/components/PaymentSection'
+import SuccessScreen from '@/components/SuccessScreen'
+import LoadingOverlay from '@/components/LoadingOverlay'
 
 const STANDARD_PRICE = 5000
 const PREMIUM_PRICE = 20000
 
-function OrderForm() {
-  const navigate = useNavigate()
-  const [selectedTier, setSelectedTier] = useState(null)
+export default function OrderForm() {
+  const router = useRouter()
+  const [selectedTier, setSelectedTier] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     recipientName: '',
     senderName: '',
@@ -22,22 +24,22 @@ function OrderForm() {
     messageType: 'prewritten',
     timeCapsule: 'none'
   })
-  const [photoFiles, setPhotoFiles] = useState([])
-  const [videoFile, setVideoFile] = useState(null)
-  const [musicFile, setMusicFile] = useState(null)
-  const [voiceFile, setVoiceFile] = useState(null)
-  const [receiptFile, setReceiptFile] = useState(null)
+  const [photoFiles, setPhotoFiles] = useState<File[]>([])
+  const [videoFile, setVideoFile] = useState<File | null>(null)
+  const [musicFile, setMusicFile] = useState<File | null>(null)
+  const [voiceFile, setVoiceFile] = useState<File | null>(null)
+  const [receiptFile, setReceiptFile] = useState<File | null>(null)
   const [showPayment, setShowPayment] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [generatedUrl, setGeneratedUrl] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleTierSelect = (tier) => {
+  const handleTierSelect = (tier: string) => {
     setSelectedTier(tier)
     setShowPayment(false)
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
   }
@@ -48,7 +50,7 @@ function OrderForm() {
       tier: 'free',
       name: formData.recipientName
     })
-    navigate(`/greeting?${params.toString()}`)
+    router.push(`/greeting?${params.toString()}`)
   }
 
   const handleShowPayment = () => {
@@ -56,10 +58,10 @@ function OrderForm() {
     setShowPayment(true)
   }
 
-  const fileToDataUrl = (file) => {
+  const fileToDataUrl = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
-      reader.onload = () => resolve(reader.result)
+      reader.onload = () => resolve(reader.result as string)
       reader.onerror = reject
       reader.readAsDataURL(file)
     })
@@ -99,7 +101,7 @@ function OrderForm() {
 
       const params = new URLSearchParams({
         name: formData.recipientName,
-        tier: selectedTier,
+        tier: selectedTier!,
         id,
         message: message.length < 800 ? message : ''
       })
@@ -192,5 +194,3 @@ function OrderForm() {
     </>
   )
 }
-
-export default OrderForm

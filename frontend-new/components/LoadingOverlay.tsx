@@ -1,4 +1,4 @@
-function LoadingOverlay() {
+export default function LoadingOverlay() {
   return (
     <div className="loading-overlay visible">
       <div className="loading-spinner"></div>
@@ -6,5 +6,3 @@ function LoadingOverlay() {
     </div>
   )
 }
-
-export default LoadingOverlay

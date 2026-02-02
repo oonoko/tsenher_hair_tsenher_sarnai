@@ -1,4 +1,28 @@
-function FormFields({
+interface FormFieldsProps {
+  tier: string
+  formData: {
+    recipientName: string
+    senderName: string
+    contact: string
+    message: string
+    messageShort: string
+    messageType: string
+    timeCapsule: string
+  }
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  photoFiles: File[]
+  setPhotoFiles: (files: File[]) => void
+  videoFile: File | null
+  setVideoFile: (file: File | null) => void
+  musicFile: File | null
+  setMusicFile: (file: File | null) => void
+  voiceFile: File | null
+  setVoiceFile: (file: File | null) => void
+  onFreePreview: () => void
+  onShowPayment: () => void
+}
+
+export default function FormFields({
   tier,
   formData,
   onInputChange,
@@ -12,15 +36,15 @@ function FormFields({
   setVoiceFile,
   onFreePreview,
   onShowPayment
-}) {
-  const handlePhotoChange = (e) => {
+}: FormFieldsProps) {
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
     const remaining = 5 - photoFiles.length
     const toAdd = files.slice(0, remaining)
     setPhotoFiles([...photoFiles, ...toAdd].slice(0, 5))
   }
 
-  const removePhoto = (index) => {
+  const removePhoto = (index: number) => {
     setPhotoFiles(photoFiles.filter((_, i) => i !== index))
   }
 
@@ -55,7 +79,7 @@ function FormFields({
           {(tier === 'standard' || tier === 'premium') && (
             <div className="form-group">
               <label>Дурсамжийн зураг</label>
-              <div className="file-upload" onClick={() => document.getElementById('photoInput').click()}>
+              <div className="file-upload" onClick={() => document.getElementById('photoInput')?.click()}>
                 <input
                   type="file"
                   id="photoInput"
@@ -116,8 +140,8 @@ function FormFields({
                     value={formData.messageShort}
                     onChange={onInputChange}
                     placeholder="Богино мессежээ бичээрэй…"
-                    rows="3"
-                    maxLength="200"
+                    rows={3}
+                    maxLength={200}
                   />
                   <span className="char-count">{formData.messageShort.length} / 200</span>
                 </>
@@ -135,18 +159,18 @@ function FormFields({
                   value={formData.message}
                   onChange={onInputChange}
                   placeholder="Сэтгэлээсээ бичээрэй…"
-                  rows="6"
+                  rows={6}
                 />
               </div>
 
               <div className="form-group">
                 <label>Видео мессеж</label>
-                <div className="file-upload" onClick={() => document.getElementById('videoInput').click()}>
+                <div className="file-upload" onClick={() => document.getElementById('videoInput')?.click()}>
                   <input
                     type="file"
                     id="videoInput"
                     accept="video/mp4,.mp4"
-                    onChange={(e) => setVideoFile(e.target.files[0])}
+                    onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
                     style={{ display: 'none' }}
                   />
                   <span>MP4 оруулах (30–90 секунд)</span>
@@ -156,12 +180,12 @@ function FormFields({
 
               <div className="form-group">
                 <label>Романтик дуу (нээлттэй тоглуулах)</label>
-                <div className="file-upload" onClick={() => document.getElementById('musicInput').click()}>
+                <div className="file-upload" onClick={() => document.getElementById('musicInput')?.click()}>
                   <input
                     type="file"
                     id="musicInput"
                     accept="audio/mpeg,audio/mp3,.mp3"
-                    onChange={(e) => setMusicFile(e.target.files[0])}
+                    onChange={(e) => setMusicFile(e.target.files?.[0] || null)}
                     style={{ display: 'none' }}
                   />
                   <span>Дуу оруулах (MP3)</span>
@@ -185,16 +209,16 @@ function FormFields({
                 />
               </div>
 
-              {(tier === 'premium') && (
+              {tier === 'premium' && (
                 <>
                   <div className="form-group">
                     <label>Дуу мессеж (10–20 секунд)</label>
-                    <div className="file-upload" onClick={() => document.getElementById('voiceInput').click()}>
+                    <div className="file-upload" onClick={() => document.getElementById('voiceInput')?.click()}>
                       <input
                         type="file"
                         id="voiceInput"
                         accept="audio/mpeg,audio/mp3,.mp3"
-                        onChange={(e) => setVoiceFile(e.target.files[0])}
+                        onChange={(e) => setVoiceFile(e.target.files?.[0] || null)}
                         style={{ display: 'none' }}
                       />
                       <span>Дуу мессеж оруулах</span>
@@ -253,5 +277,3 @@ function FormFields({
     </section>
   )
 }
-
-export default FormFields

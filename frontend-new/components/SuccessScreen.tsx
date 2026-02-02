@@ -1,7 +1,12 @@
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
-function SuccessScreen({ url, onNewOrder }) {
-  const navigate = useNavigate()
+interface SuccessScreenProps {
+  url: string
+  onNewOrder: () => void
+}
+
+export default function SuccessScreen({ url, onNewOrder }: SuccessScreenProps) {
+  const router = useRouter()
 
   const handleCopy = () => {
     navigator.clipboard.writeText(url)
@@ -10,7 +15,7 @@ function SuccessScreen({ url, onNewOrder }) {
 
   const handleOpenWeb = () => {
     const path = url.split(window.location.origin)[1]
-    navigate(path)
+    router.push(path)
   }
 
   return (
@@ -34,5 +39,3 @@ function SuccessScreen({ url, onNewOrder }) {
     </section>
   )
 }
-
-export default SuccessScreen

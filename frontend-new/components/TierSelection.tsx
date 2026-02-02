@@ -1,4 +1,9 @@
-function TierSelection({ selectedTier, onSelect }) {
+interface TierSelectionProps {
+  selectedTier: string | null
+  onSelect: (tier: string) => void
+}
+
+export default function TierSelection({ selectedTier, onSelect }: TierSelectionProps) {
   const tiers = [
     {
       id: 'free',
@@ -58,5 +63,3 @@ function TierSelection({ selectedTier, onSelect }) {
     </section>
   )
 }
-
-export default TierSelection

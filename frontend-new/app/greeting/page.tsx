@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import axios from 'axios'
-import EmotionalReveal from '../components/EmotionalReveal'
-import GreetingContent from '../components/GreetingContent'
-import FloatingHearts from '../components/FloatingHearts'
-import MoodSwitch from '../components/MoodSwitch'
-import HiddenLoveNote from '../components/HiddenLoveNote'
+'use client'
 
-function GreetingPage() {
-  const [searchParams] = useSearchParams()
-  const [greetingData, setGreetingData] = useState(null)
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
+import axios from 'axios'
+import EmotionalReveal from '@/components/EmotionalReveal'
+import GreetingContent from '@/components/GreetingContent'
+import FloatingHearts from '@/components/FloatingHearts'
+import MoodSwitch from '@/components/MoodSwitch'
+import HiddenLoveNote from '@/components/HiddenLoveNote'
+
+function GreetingPageContent() {
+  const searchParams = useSearchParams()
+  const [greetingData, setGreetingData] = useState<any>(null)
   const [showReveal, setShowReveal] = useState(false)
   const [nightMode, setNightMode] = useState(false)
   const [showEaster, setShowEaster] = useState(false)
@@ -80,4 +82,10 @@ function GreetingPage() {
   )
 }
 
-export default GreetingPage
+export default function GreetingPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GreetingPageContent />
+    </Suspense>
+  )
+}

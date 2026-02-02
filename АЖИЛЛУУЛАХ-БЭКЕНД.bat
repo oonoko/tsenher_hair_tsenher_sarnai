@@ -6,5 +6,5 @@ if not exist node_modules (
   call npm install
 )
 echo Backend ажиллаж байна: http://localhost:3000
-node server.js
+node src/server.js
 pause
