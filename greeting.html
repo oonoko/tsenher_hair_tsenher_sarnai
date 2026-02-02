@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сэтгэлийн илгээмж – Хайртай хүндээ</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="greeting-page">
+  <div class="hearts-bg" id="heartsBg" aria-hidden="true"></div>
+
+  <!-- Emotional Reveal Overlay (Premium/AI) -->
+  <div class="reveal-overlay" id="revealOverlay" style="display: none;">
+    <div class="reveal-content">
+      <p class="reveal-text" id="revealText">Хайртай хүн, чамд бяцхан нууц хүлээж байна…</p>
+      <button type="button" class="btn btn-primary btn-reveal" id="openGiftBtn">💖 Нээх</button>
+    </div>
+    <div class="heart-burst" id="heartBurst" aria-hidden="true"></div>
+  </div>
+
+  <!-- Mood Switch (Premium/AI) -->
+  <button type="button" class="mood-switch" id="moodSwitch" aria-label="Өдөр/Шөнийн горим" style="display: none;">
+    <span class="mood-icon-day">🌸</span>
+    <span class="mood-icon-night">🌙</span>
+  </button>
+
+  <!-- Hidden Love Note Easter Egg (Premium/AI) -->
+  <button type="button" class="hidden-love-note" id="hiddenLoveNote" aria-label="Нууц" style="display: none;">✨</button>
+
+  <!-- Easter Egg Modal -->
+  <div class="easter-modal-overlay" id="easterModal" aria-hidden="true">
+    <div class="easter-modal">
+      <p>Та үүнийг оллоо. Би чамайг үнэхээр хайрладаг.</p>
+      <button type="button" class="btn btn-primary" id="closeEasterBtn">Ойлголоо</button>
+    </div>
+  </div>
+
+  <main class="greeting-main" id="greetingMain">
+    <header class="greeting-header">
+      <h1 id="greetingTitle">Сэтгэлийн илгээмж</h1>
+    </header>
+
+    <div class="ai-disclaimer" id="aiDisclaimer" style="display: none;">
+      <p>Зураг болон бичлэг нь хиймэл оюун ухаанаар үүсгэгдсэн болно.</p>
+    </div>
+
+    <section class="greeting-recipient">
+      <h2 id="recipientName">Хайртай хүн</h2>
+      <p class="sub" id="recipientSub">чамдаа зориуллаа…</p>
+    </section>
+
+    <div class="greeting-message-box">
+      <p class="message-text" id="messageText">
+        Чамайг харах бүрт миний ертөнц илүү гэрэлтдэг. Энэ бяцхан вебийг тусгайлан чамдаа зориуланхийлгэлээ. Хайртай шүү ❤
+      </p>
+      <span class="typewriter-cursor" id="typewriterCursor" style="display: none;">|</span>
+    </div>
+
+    <section class="greeting-ai-story" id="greetingAiStory" style="display: none;">
+      <h3>Бидний түүх</h3>
+      <p class="ai-story-text" id="aiStoryText"></p>
+    </section>
+
+    <section class="greeting-photos" id="greetingPhotos">
+      <h3>Бидний дурсамжууд</h3>
+      <div class="photos-grid" id="photosGrid">
+        <div class="photo-frame"><div class="photo-placeholder">📷</div></div>
+        <div class="photo-frame"><div class="photo-placeholder">📷</div></div>
+        <div class="photo-frame"><div class="photo-placeholder">📷</div></div>
+      </div>
+    </section>
+
+    <section class="greeting-ai-visuals" id="greetingAiVisuals" style="display: none;">
+      <h3>AI-ийн романтик дүрслэл</h3>
+      <div class="photos-grid ai-visuals-grid" id="aiVisualsGrid">
+        <div class="photo-frame ai-placeholder"><div class="photo-placeholder">🌸</div></div>
+        <div class="photo-frame ai-placeholder"><div class="photo-placeholder">💕</div></div>
+        <div class="photo-frame ai-placeholder"><div class="photo-placeholder">✨</div></div>
+      </div>
+    </section>
+
+    <section class="greeting-video" id="greetingVideo" style="display: none;">
+      <h3>Видео мессеж</h3>
+      <div class="video-wrapper">
+        <video id="greetingVideoPlayer" controls playsinline preload="metadata">
+          <source id="greetingVideoSource" src="" type="video/mp4">
+        </video>
+      </div>
+    </section>
+
+    <section class="greeting-voice" id="greetingVoice" style="display: none;">
+      <h3>Дуу мессеж</h3>
+      <div class="voice-wrapper">
+        <audio id="greetingVoicePlayer" preload="auto">
+          <source id="greetingVoiceSource" src="" type="audio/mpeg">
+        </audio>
+        <button type="button" class="btn btn-primary btn-voice-play" id="voicePlayBtn">▶ Тоглуулах</button>
+      </div>
+    </section>
+
+    <section class="greeting-music" id="greetingMusic" style="display: none;">
+      <div class="audio-wrapper">
+        <audio id="greetingAudioPlayer" loop preload="auto" muted>
+          <source id="greetingAudioSource" src="" type="audio/mpeg">
+        </audio>
+        <button type="button" class="btn btn-secondary btn-mute-toggle" id="muteToggle" aria-label="Дуу унтраах/асах">🔇 Дуу асах</button>
+      </div>
+    </section>
+
+    <section class="greeting-timecapsule" id="greetingTimecapsule" style="display: none;">
+      <div class="timecapsule-box">
+        <p>Энэ мессеж <strong>6 сарын дараа</strong> нээгдэнэ.</p>
+        <p class="timecapsule-date" id="timecapsuleDate"></p>
+      </div>
+    </section>
+
+    <div class="greeting-payment-box" id="greetingPaymentBox">
+      <h4>Төлбөрийн заавар</h4>
+      <p>Веб үүсгэхийн тулд <strong>5,000₮</strong> эсвэл <strong>20,000₮</strong> энэ данс руу шилжүүлнэ үү.</p>
+      <div class="bank-info" style="margin-top: 0.75rem;">
+        <p><strong>Банк:</strong> ХХБ</p>
+        <p><strong>Дансны дугаар:</strong> 123456789</p>
+        <p><strong>Хүлээн авагч:</strong> Бат-Эрдэнэ</p>
+        <p><strong>Гүйлгээний утга:</strong> Таны нэр</p>
+      </div>
+    </div>
+
+    <div class="greeting-buttons">
+      <button type="button" class="btn btn-primary">Баярлалаа</button>
+      <button type="button" class="btn btn-secondary">Хайр илгээх</button>
+      <button type="button" class="btn btn-secondary">Дурсамж үзэх</button>
+    </div>
+
+    <footer class="greeting-ending" id="greetingEnding">
+      <p class="ending-text">Энэ нь зөвхөн эхлэл…</p>
+      <p class="ending-signature" id="endingSignature">Хайртайгаар,</p>
+      <p><span class="heart-icon">❤</span></p>
+    </footer>
+  </main>
+
+  <script src="js/greeting.js"></script>
+</body>
+</html>

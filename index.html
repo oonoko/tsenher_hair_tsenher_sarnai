@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тусгай веб бүтээх захиалга – Хайртай хүндээ зориулсан веб</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="page-header">
+    <h1>Тусгай веб бүтээх захиалга</h1>
+    <p>Хайртай хүндээ зориулсан вебээ үүсгээрэй</p>
+  </div>
+
+  <main class="container">
+    <!-- Tier Selection -->
+    <section class="tier-section card">
+      <h2 class="card-title">Загвараа сонгоно уу</h2>
+      <div class="tier-cards" id="tierCards">
+        <div class="tier-card" data-tier="free" role="button" tabindex="0">
+          <span class="tier-badge tier-badge-free">Үнэгүй</span>
+          <h3>Урьдчилан харах</h3>
+          <p>Веб хэлбэр, мэдрэмжийг үнэгүй туршина</p>
+          <ul class="tier-features">
+            <li>Системийн романтик мессеж</li>
+            <li>Хүлээн авагчийн нэр</li>
+            <li>Хязгаарлагдмал холбоос</li>
+          </ul>
+        </div>
+        <div class="tier-card" data-tier="standard" role="button" tabindex="0">
+          <span class="tier-badge tier-badge-standard">5,000₮</span>
+          <h3>Стандарт – Зургийн багц</h3>
+          <p>1–5 зураг, богино мессеж</p>
+          <ul class="tier-features">
+            <li>Хувийн веб, нэр</li>
+            <li>1–5 хувийн зураг</li>
+            <li>Урьд бичсэн эсвэл богино мессеж</li>
+          </ul>
+        </div>
+        <div class="tier-card" data-tier="premium" role="button" tabindex="0">
+          <span class="tier-badge tier-badge-premium">20,000₮</span>
+          <h3>Премиум – Дээд туршлага</h3>
+          <p>Видео, дуу, урт мессеж</p>
+          <ul class="tier-features">
+            <li>Стандартын бүх зүйл</li>
+            <li>Видео мессеж (MP4, 30–90 сек)</li>
+            <li>Романтик дуу, урт мессеж</li>
+          </ul>
+        </div>
+        <div class="tier-card" data-tier="ai" role="button" tabindex="0">
+          <span class="tier-badge tier-badge-ai">🤖 30,000₮</span>
+          <h3>AI – Хиймэл оюун ухааны туршлага</h3>
+          <p>Зураг/видео оруулахгүй, AI үүсгэнэ</p>
+          <ul class="tier-features">
+            <li>Премиум бүх онцлог</li>
+            <li>AI-ийн романтик зургууд</li>
+            <li>AI-ийн видео, мессеж, дуу</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Screen -->
+    <section class="form-screen" id="formScreen">
+      <div class="card form-card">
+        <h2 class="card-title">Захиалгын мэдээлэл</h2>
+
+        <form id="orderForm">
+          <div class="form-group" data-visible-tier="free standard premium ai">
+            <label for="recipientName">Нэр</label>
+            <input type="text" id="recipientName" name="recipientName" placeholder="Хэнд зориулах вэ?" required>
+          </div>
+
+          <!-- Free: Preview button only -->
+          <div class="form-group form-group-free-only" id="freePreviewGroup" style="display: none;">
+            <button type="button" class="btn btn-primary" id="previewFreeBtn">
+              Урьдчилан харах →
+            </button>
+            <p class="form-hint">Төлбөргүй. Зөвхөн загварыг харах боломжтой.</p>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="standard premium" id="photoGroup" style="display: none;">
+            <label>Дурсамжийн зураг</label>
+            <div class="file-upload" id="photoUpload" role="button" tabindex="0">
+              <input type="file" id="photoInput" accept="image/*" multiple>
+              <span>Зураг оруулах (1–5 зураг)</span>
+            </div>
+            <div class="preview-grid" id="photoPreviews"></div>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="standard" id="messageStandardGroup" style="display: none;">
+            <label>Сэтгэлийн үг</label>
+            <div class="message-option-row">
+              <label class="radio-label"><input type="radio" name="messageType" value="prewritten" checked> Урьд бичсэн романтик мессеж</label>
+              <label class="radio-label"><input type="radio" name="messageType" value="custom"> Богино өөрийн мессеж (200 тэмдэгт)</label>
+            </div>
+            <textarea id="messageShort" name="messageShort" placeholder="Богино мессежээ бичээрэй…" rows="3" maxlength="200" style="display: none;"></textarea>
+            <span class="char-count" id="charCountStandard" style="display: none;">0 / 200</span>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="premium" id="messagePremiumGroup" style="display: none;">
+            <label for="message">Сэтгэлийн үг (урт мессеж)</label>
+            <textarea id="message" name="message" placeholder="Сэтгэлээсээ бичээрэй…" rows="6"></textarea>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="premium" id="videoGroup" style="display: none;">
+            <label>Видео мессеж</label>
+            <div class="file-upload" id="videoUpload" role="button" tabindex="0">
+              <input type="file" id="videoInput" accept="video/mp4,.mp4">
+              <span>MP4 оруулах (30–90 секунд)</span>
+            </div>
+            <p class="form-hint" id="videoHint"></p>
+            <div class="preview-grid preview-video" id="videoPreview"></div>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="premium" id="musicGroup" style="display: none;">
+            <label>Романтик дуу (нээлттэй тоглуулах)</label>
+            <div class="file-upload" id="musicUpload" role="button" tabindex="0">
+              <input type="file" id="musicInput" accept="audio/mpeg,audio/mp3,.mp3,audio/wav,audio/ogg">
+              <span>Дуу оруулах (MP3)</span>
+            </div>
+            <p class="form-hint">Авто тоглуулах, дуу нь унтраалттай эхэлнэ.</p>
+          </div>
+
+          <!-- AI Package: mood, keywords, message tone, no photo/video upload -->
+          <div class="form-group form-group-paid" data-visible-tier="ai" id="aiMoodGroup" style="display: none;">
+            <label>Сэтгэл хөдлөл / загвар</label>
+            <div class="mood-options" id="moodOptions">
+              <label class="radio-label"><input type="radio" name="aiMood" value="romantic" checked> Романтик</label>
+              <label class="radio-label"><input type="radio" name="aiMood" value="sweet"> Сэтгэлтэй</label>
+              <label class="radio-label"><input type="radio" name="aiMood" value="emotional"> Сэтгэл хөдлөм</label>
+              <label class="radio-label"><input type="radio" name="aiMood" value="elegant"> Элегант</label>
+            </div>
+          </div>
+          <div class="form-group form-group-paid" data-visible-tier="ai" id="aiKeywordsGroup" style="display: none;">
+            <label for="aiKeywords">Сэдэв / түлхүүр үгс (заавал биш)</label>
+            <input type="text" id="aiKeywords" name="aiKeywords" placeholder="Жишээ: нар жаргах, цэцэг, одод, зөөлөн хайр">
+          </div>
+          <div class="form-group form-group-paid" data-visible-tier="ai" id="aiToneGroup" style="display: none;">
+            <label>Мессежийн аялгуу</label>
+            <div class="mood-options">
+              <label class="radio-label"><input type="radio" name="aiTone" value="romantic" checked> Романтик</label>
+              <label class="radio-label"><input type="radio" name="aiTone" value="emotional"> Сэтгэл хөдлөм</label>
+              <label class="radio-label"><input type="radio" name="aiTone" value="poetic"> Шүлгэн</label>
+            </div>
+          </div>
+          <div class="form-group form-group-paid" data-visible-tier="ai" id="aiMessageGroup" style="display: none;">
+            <label for="aiMessage">Хайрласан үг (AI туслана)</label>
+            <textarea id="aiMessage" name="aiMessage" placeholder="Хүсэл, санаагаа товч бичвэл AI-ийн урт мессеж үүснэ. Эсвэл өөрөө бүтэн мессеж бичээрэй…" rows="5"></textarea>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="standard premium ai" id="senderNameGroup" style="display: none;">
+            <label for="senderName">Илгээгчийн нэр</label>
+            <input type="text" id="senderName" name="senderName" placeholder="Таны нэр (With love, …)">
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="premium ai" id="voiceGroup" style="display: none;">
+            <label>Дуу мессеж (10–20 секунд)</label>
+            <div class="file-upload" id="voiceUpload" role="button" tabindex="0">
+              <input type="file" id="voiceInput" accept="audio/mpeg,audio/mp3,.mp3,audio/wav,audio/ogg">
+              <span>Дуу мессеж оруулах</span>
+            </div>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="premium ai" id="timeCapsuleGroup" style="display: none;">
+            <label>Цаг хугацааны капсул</label>
+            <label class="radio-label"><input type="radio" name="timeCapsule" value="none" checked> Байхгүй</label>
+            <label class="radio-label"><input type="radio" name="timeCapsule" value="6months"> 6 сарын дараа нээх</label>
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="ai" id="aiStoryGroup" style="display: none;">
+            <label>AI хайрласан түүх</label>
+            <input type="text" id="aiStoryMet" class="form-input" placeholder="Хэзээ анх уулзсан бэ?">
+            <input type="text" id="aiStoryLove" class="form-input" placeholder="Юунд хамгийн их дуртай вэ?">
+            <input type="text" id="aiStoryFuture" class="form-input" placeholder="Ирээдүйд юу хүсэж байна вэ?">
+          </div>
+
+          <div class="form-group form-group-paid" data-visible-tier="standard premium ai" id="contactGroup" style="display: none;">
+            <label for="contact">Холбоо барих</label>
+            <input type="text" id="contact" name="contact" placeholder="Таны утас / И-мэйл" required>
+          </div>
+
+          <div class="form-group form-group-paid" id="paymentBtnGroup" style="display: none;">
+            <button type="button" class="btn btn-primary" id="showPaymentBtn">
+              Төлбөрийн заавар харах →
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Payment Section (Standard / Premium) -->
+      <div class="card payment-card">
+        <div class="payment-section" id="paymentSection">
+          <h3 class="card-title">Төлбөрийн заавар</h3>
+          <p class="payment-amount-text" id="paymentAmountText" style="margin-bottom: 1rem; color: #5c3744;">
+            Та веб захиалгаа баталгаажуулахын тулд <strong id="paymentAmount">5,000₮</strong> дараах данс руу шилжүүлнэ үү.
+          </p>
+          <div class="bank-info">
+            <p><strong>Банк:</strong> ХХБ</p>
+            <p><strong>Дансны дугаар:</strong> 123456789</p>
+            <p><strong>Хүлээн авагч:</strong> Бат-Эрдэнэ</p>
+            <p><strong>Гүйлгээний утга:</strong> Таны нэр</p>
+          </div>
+
+          <div class="form-group">
+            <label>Төлбөрийн баримт оруулах</label>
+            <div class="file-upload" id="receiptUpload" role="button" tabindex="0">
+              <input type="file" id="receiptInput" accept="image/*">
+              <span>Төлбөрийн баримт оруулах</span>
+            </div>
+            <div class="preview-grid" id="receiptPreviews"></div>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="confirmPaymentBtn" disabled>
+            Баталгаажуулах →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Success Screen -->
+    <section class="success-screen" id="successScreen">
+      <div class="card">
+        <div class="success-icon">❤</div>
+        <h2>Таны веб бэлэн боллоо!</h2>
+        <p class="success-url" id="generatedUrl">https://loveweb.mn/<span id="urlSlug">recipient-uniqueID</span></p>
+        <div class="success-buttons">
+          <a href="#" class="btn btn-primary" id="openWebBtn">Веб рүү орох</a>
+          <button type="button" class="btn btn-secondary" id="copyUrlBtn">Хуваалцах</button>
+          <button type="button" class="btn btn-ghost" id="newWebBtn">Шинэ веб үүсгэх</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+    <div class="loading-spinner"></div>
+    <p>Баталгаажуулж байна…</p>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
